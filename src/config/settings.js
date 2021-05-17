@@ -1,0 +1,1 @@
+export const BASE_URL = "https://tecnologo-splash-api.herokuapp.com/";
