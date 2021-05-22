@@ -9,11 +9,13 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { ForgotPassword } from '../components/login/ForgotPassword';
 import { withStyles } from "@material-ui/core/styles";
+
+import { useState } from "react";
 import { login } from "../services/auth";
+import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router";
 
-import React, { useState } from "react";
-
-export function Login() {
+export default function Login() {
   const loginFormStyles = css`
     box-shadow: 0 2px 14px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
     background-color: #ecf0f1;
@@ -39,12 +41,32 @@ export function Login() {
   })(Typography);
 
 
-
+  //Estado Local
   const [username, setUsername] = useState("hola");
   const [password, setPassword] = useState("chau");
+  const history = useHistory();
+
 
   const functionLogin = () => {
-    login(username, password);
+    login(username, password).then(
+      () => {
+        history.push("/inicio");
+        //window.location.reload();
+      },
+      error =>{
+        const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          this.setState({
+            loading: false,
+            message: resMessage
+          });
+      }
+    )
   }
 
   const onChangeUsername = (event) => {
