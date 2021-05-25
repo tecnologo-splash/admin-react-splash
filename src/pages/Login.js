@@ -10,10 +10,10 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { ForgotPassword } from '../components/login/ForgotPassword';
 import { withStyles } from "@material-ui/core/styles";
 
-import { useState } from "react";
-import { login } from "../services/auth";
-import { Redirect } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { isAuthenticated } from "../services/auth";
 import { useHistory } from "react-router";
+import {Context as AdminContext} from "../contexts/AdminContext";
 
 export default function Login() {
   const loginFormStyles = css`
@@ -46,27 +46,11 @@ export default function Login() {
   const [password, setPassword] = useState("chau");
   const history = useHistory();
 
-
+  const {state:{ token }, login } = useContext(AdminContext);
+  
   const functionLogin = () => {
-    login(username, password).then(
-      () => {
-        history.push("/inicio");
-        //window.location.reload();
-      },
-      error =>{
-        const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-
-          this.setState({
-            loading: false,
-            message: resMessage
-          });
-      }
-    )
+    login(username, password);
+    console.log("prueba")
   }
 
   const onChangeUsername = (event) => {
@@ -75,8 +59,12 @@ export default function Login() {
 
   const onChangePassword = (event) => {
     setPassword(event.target.value)
-  }
+  };
 
+  useEffect(()=>{
+    if (isAuthenticated())
+      history.push("/inicio")
+  })
 
   return (
     <>

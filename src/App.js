@@ -4,22 +4,27 @@ import AppRoute from "./components/router/AppRoute";
 
 import Login from "./pages/Login";
 import Inicio from "./pages/Inicio";
+import Administradores from "./pages/Administradores";
 
+import {Provider as AdminProvider} from './contexts/AdminContext';
 
 function App() {
   return (
-    <Suspense fallback="Cargando...">
-      <Router>
-        
-        <Switch>
+    <AdminProvider>
+      <Suspense fallback="Cargando...">
+        <Router>
 
-          <Route exact path={"/login"} component={Login} isPrivate={false}/>
-          <AppRoute path={"/inicio"} component={Inicio} isPrivate={true} />
-          <Redirect to="/inicio" />
-      
-        </Switch>
-      </Router>
-    </Suspense>
+          <Switch>
+
+            <Route exact path={"/login"} component={Login} isPrivate={false}/>
+            <AppRoute path={"/inicio"} component={Inicio} isPrivate={true} />
+            <AppRoute path={"/administradores"} component={Administradores} isPrivate={true} />
+            <Redirect to="/inicio" />
+        
+          </Switch>
+        </Router>
+      </Suspense>
+    </AdminProvider>
   );
 }
 
