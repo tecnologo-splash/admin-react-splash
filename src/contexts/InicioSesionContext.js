@@ -43,7 +43,7 @@ const inicioSesion = (dispatch) => ({usuario, password}) =>{
     }
     
 }
-
+ 
 /*
 export const getToken = () => {
     return localStorage.getItem('tokenSplash');
@@ -51,9 +51,6 @@ export const getToken = () => {
 */
 
 /* Fin Actions */
-
-
-
 
 
 export const {Context, Provider} = crearContext(
