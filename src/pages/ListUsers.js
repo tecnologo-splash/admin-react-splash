@@ -23,6 +23,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 import AppBarSplash from "../components/shared/appbar.component";
+import { listUsers } from "../services/users";
 
 function createData(pfp, name, sname, email, nickname, active, blocked, reports) {
   return {
@@ -266,7 +267,6 @@ export default function ListUsers() {
         selected.slice(selectedIndex + 1),
       );
     }
-
     setSelected(newSelected);
   };
 
@@ -328,7 +328,7 @@ export default function ListUsers() {
                         selected={isItemSelected}
                         className={classes.tableRow}
                       >
-                        <TableCell padding="checkbox">
+                        <TableCell>
                           <Checkbox
                             className={classes.checkbox}
                             checked={isItemSelected}
@@ -368,7 +368,7 @@ export default function ListUsers() {
         </Paper>
         <FormControlLabel
           control={<Switch checked={dense} onChange={handleChangeDense} />}
-          label="Dense padding"
+          label="Modo compacto"
         />
       </div>
     </>
