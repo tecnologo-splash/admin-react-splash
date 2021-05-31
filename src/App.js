@@ -5,8 +5,10 @@ import AppRoute from "./components/router/AppRoute";
 import Login from "./pages/Login";
 import Inicio from "./pages/Inicio";
 import Administradores from "./pages/Administradores";
+import ListarUsers from "./pages/ListarUsers";
 
 import {Provider as AdminProvider} from './contexts/AdminContext';
+import {Provider as UsuarioProvider} from './contexts/UsuarioContext';
 
 function App() {
   return (
@@ -19,12 +21,17 @@ function App() {
             <Route exact path={"/login"} component={Login} isPrivate={false}/>
             <AppRoute path={"/inicio"} component={Inicio} isPrivate={true} />
             <AppRoute path={"/administradores"} component={Administradores} isPrivate={true} />
+            
+            <UsuarioProvider>
+              <AppRoute path={"/usuarios"} component={ListarUsers} isPrivate={true} />
+            </UsuarioProvider>
             <Redirect to="/inicio" />
         
           </Switch>
         </Router>
       </Suspense>
     </AdminProvider>
+
   );
 }
 
