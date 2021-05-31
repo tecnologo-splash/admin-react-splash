@@ -152,7 +152,7 @@ export function NewAdmin() {
     
                 <Grid item xs={12}> 
                     <Typography variant="caption">
-                        * Campos obligatirios
+                        * Campos obligatorios
                     </Typography>
                 </Grid>
 
@@ -160,16 +160,16 @@ export function NewAdmin() {
                     <Typography variant="caption" display="block" gutterBottom>
                         Al hacer clic en Registrarte,
                         <Link href="#">
-                            {'   aceptas las Condiciones, la Política de datos '}
+                            {' aceptas las Condiciones y la Política de datos '}
                         </Link>
-                        del servicio en cuestion
+                        del servicio en cuestión
                     </Typography>
                 </Grid>
               </Grid>
             </DialogContent>
             <DialogActions className="pb-4 mr-4">
                 <Button onClick={handleClose} color="primary">
-                    Calcelar
+                    Cancelar
                 </Button>
                 <Button onClick={handleSubmit} color="primary" variant="contained">
                     Guardar
