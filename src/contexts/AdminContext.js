@@ -37,8 +37,14 @@ const AdminReducer = (state, action) => {
             return {
                 ...state,
                 status: action.payload.status,
-                message: action.payload.message,
-                lastDispatch: action.type
+                lastDispatch: action.type,
+            }
+        }
+        case "ERROR": {
+            return {
+                ...state,
+                dispatchError: action.payload,
+                lastDispatch: action.type,
             }
         }
         default: 
@@ -52,7 +58,7 @@ const initialState = {
     token: null,
     currentUser: null,
     status: "",
-    message: "",
+    dispatchError: "",
 };
 
 /*
@@ -69,13 +75,22 @@ const login = (dispatch) => (username, password) => {
             dispatch({ type: 'SET_TOKEN', payload: data.token })
         }
     });
-}*/
+}
+*/
 
-const login = (dispatch) => (username, password) => {
-    
+const login =  (dispatch) => async (username, password) => {
+    /*
     var credentials = { 
         "correo": username, 
         "clave": password 
+    }
+    */
+
+    let credentials={clave:password}
+    if (userOrEmail(username)) {
+      credentials["correo"] = username;
+    } else {
+      credentials["usuario"] = username;
     }
 
     var myInit = {
@@ -84,13 +99,19 @@ const login = (dispatch) => (username, password) => {
         'body': JSON.stringify(credentials)
     }
     
-    fetch(BASE_URL + "users/auth", myInit)
-    .then(response => response.json())
-    .then(data => {
-        if (data.token) {
+    return await fetch(BASE_URL + "users/auth", myInit)
+    //.then(response => response.json())
+    .then( async response => {
+        if (response.ok) {
+            let data = await response.json()
             localStorage.setItem("tokenSplash",data.token);
             dispatch({ type: 'SET_TOKEN', payload: data.token })
+            return {error: false, message: data.message}
+        } else {
+            let json = await response.json();
+            return  {error: true, message: json.message}
         }
+
     });
 }
 
@@ -107,7 +128,13 @@ const getInfo = (dispatch) => () => {
     .then(response => response.json())
     .then(data => {
         if (data) {
-            dispatch({ type: 'GET_USER_INFO', payload: data })
+            console.log(data)
+            if (data.nombre_rol === "ADMINISTRADOR") {
+                dispatch({ type: 'GET_USER_INFO', payload: data })
+            } else {
+                localStorage.removeItem("tokenSplash");
+                window.location.reload();
+            }
         }
     });
 }
@@ -137,29 +164,9 @@ const getAdminUsers = (dispatch) => (page, rowsPerPage) => {
     });
 }
 
-const addAdminUser = (dispatch) => (usuario) => {
-    var newUser = { 
-        "correo": usuario.correo, 
-        "clave": usuario.clave,
-        "nombre": usuario.nombre,
-        "apellido": usuario.apellido,
-        "usuario": usuario.usuario
-    }
-    
-    var myInit = {
-        'method': 'POST',
-        headers: {
-            'Content-Type': "application/json",
-            'Authorization': "Bearer " + getToken(),
-        },
-        'body': JSON.stringify(newUser)
-    }
-    fetch(BASE_URL + "users/admin/sign-up", myInit)
-    .then(response => response.json())
-    .then(data => {
-        dispatch({ type: 'ADD_ADMIN_USER', payload: data })
-    })
-    
+const userOrEmail=(data)=>{
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(data);
 }
 
 const getToken = () => {
@@ -171,9 +178,11 @@ const isAuthenticated = () => {
 }
 
 
+
+
 export const {Context, Provider} = crearContext(
     AdminReducer,
-    { login, getInfo, logout, getAdminUsers, isAuthenticated, addAdminUser },
+    { login, getInfo, logout, getAdminUsers, isAuthenticated },
     initialState
 );
 

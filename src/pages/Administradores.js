@@ -1,19 +1,25 @@
 import React from 'react';
 import AppBarSplash from "../components/shared/appbar.component";
-import ListAdmin from "../components/List-Admin.component";
-import {NewAdmin} from "../components/New-Admin.component";
+import ListAdmin from "../components/administradores/List-Admin.component";
+import {NewAdmin} from "../components/administradores/New-Admin.component";
+
+import Container from '@material-ui/core/Container';
+
 
 export default function Administradores() {
   
   return(
       <div>
-
-          <AppBarSplash />
         
-          <span>Administradores</span>
+        <AppBarSplash />
+
+        <Container>
+
           <NewAdmin />
-          <ListAdmin />
           
+          <ListAdmin />
+
+        </Container>
       </div>
   )
 } 

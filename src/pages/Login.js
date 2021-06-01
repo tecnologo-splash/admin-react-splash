@@ -1,30 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+
 import Typography from '@material-ui/core/Typography';
 
-import InputAdornment from "@material-ui/core/InputAdornment";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import { ForgotPassword } from '../components/login/ForgotPassword';
+
 import { withStyles } from "@material-ui/core/styles";
 
-import { useState, useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { isAuthenticated } from "../services/auth";
 import { useHistory } from "react-router";
-import {Context as AdminContext} from "../contexts/AdminContext";
+import { LoginForm } from '../components/login/LoginForm';
 
 export default function Login() {
-  const loginFormStyles = css`
-    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
-    background-color: #ecf0f1;
-    padding: 25px;
-  `;
 
-  const inputStyles = css`
-    background-color: white;
-  `;
   const bodyStyles = css`
   background: url(${process.env.PUBLIC_URL + '/recursos/splashbg.svg'}) no-repeat center center fixed; 
   -webkit-background-size: cover;
@@ -42,24 +30,10 @@ export default function Login() {
 
 
   //Estado Local
-  const [username, setUsername] = useState("hola");
-  const [password, setPassword] = useState("chau");
+
   const history = useHistory();
 
-  const {state:{ token }, login } = useContext(AdminContext);
-  
-  const functionLogin = () => {
-    login(username, password);
-    console.log("prueba")
-  }
 
-  const onChangeUsername = (event) => {
-    setUsername(event.target.value)    
-  }
-
-  const onChangePassword = (event) => {
-    setPassword(event.target.value)
-  };
 
   useEffect(()=>{
     if (isAuthenticated())
@@ -93,70 +67,8 @@ export default function Login() {
         </div>
 
         {/*Derecha*/}
-
-        <div className="col-sm-4 col-md-3 offset-md-1">
-
-          <div css={loginFormStyles} className="rounded">
-            <Typography variant="h4" gutterBottom>
-              <center>Inicio de Sesión</center>
-            </Typography>
-            <div className="mb-3">
-              <TextField fullWidth
-                className="mt-4"
-                label="Usuario"
-                autoFocus={true}
-                variant="outlined"
-                onChange={onChangeUsername}
-                required
-                css={inputStyles}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <AccountCircle />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </div>
-            <div className="mb-3">
-              <TextField fullWidth
-                className="mt-4"
-                variant="outlined"
-                css={inputStyles}
-                label="Contraseña"
-                color="primary"
-                type="password"
-                onChange={onChangePassword}
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <VpnKeyIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-
-              </div>
-                <Button variant="contained" color="primary" fullWidth className="mt-2" size="large" onClick={functionLogin}>
-                  Iniciar Sesión
-                </Button>{" "}
-
-                <div className="text-center pt-2 pb-3">
-
-                  <ForgotPassword />
-                  
-                  <hr />
-            </div>
-            
-            <div className="text-center">
-
-              <Typography variant="caption">
-                * Campos obligatorios
-              </Typography>
-            </div>
-          </div>
-        </div>
+        <LoginForm />
+        
       </div>
     </>
   );

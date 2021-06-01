@@ -9,12 +9,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
-import { formatDateTime} from "../services/date.service";
-import {Context as AdminContext } from "../contexts/AdminContext";
+import {DelAdmin} from './Del-Admin.component'
+import { formatDateTime} from "../../services/date.service";
+import {Context as AdminContext } from "../../contexts/AdminContext";
 
 
 const columns = [
-  { id: 'id', label: '#', minWidth: 170 },
+  { id: 'id', label: '#', minWidth: 80 },
+  { id: 'usuario', label: 'Usuario', minwidth:100},
   { id: 'apellido', label: 'Apellido', minWidth: 100 },
   { id: 'nombre', label: 'Nombre', minWidth: 100 },
   { id: 'correo', label: 'Correo', minWidth: 100 },
@@ -63,9 +65,11 @@ export default function ListAdmin() {
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.label}
+                  <b>{column.label}</b>
                 </TableCell>
               ))}
+              <TableCell>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -82,7 +86,9 @@ export default function ListAdmin() {
                         </TableCell>
                       )
                     })}
-
+                    <TableCell>
+                      <DelAdmin admin={row} page={page} size={rowsPerPage} />
+                    </TableCell>
                   </TableRow>
                 )
               })  
