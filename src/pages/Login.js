@@ -88,7 +88,7 @@ export default function Login() {
             Bienvenido a la Administración de Splash
           </WhiteTextTypography>
           <WhiteTextTypography variant="body1" gutterBottom color="secondary">
-            Una red social para disfrutar plenamente diviritiendote con tus amigos y  los nuevos por conocer.
+            Una red social para disfrutar plenamente divirtiéndote con tus amigos y los nuevos por conocer.
           </WhiteTextTypography>
         </div>
 

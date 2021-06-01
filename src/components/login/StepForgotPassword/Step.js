@@ -38,7 +38,7 @@ export function SetpComponent({stepIndex}) {
           fullWidth
           className="mb-4"
             variant="outlined"
-            label="Codigo de Verifiacion"
+            label="Codigo de Verificación"
             color="primary"
             type="text"
             required
