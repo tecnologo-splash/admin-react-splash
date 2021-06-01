@@ -1,30 +1,22 @@
 import React, {useEffect,useContext} from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar'
 import Button from "@material-ui/core/Button";
-import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import EmailIcon from "@material-ui/icons/Email";
 import FilterListIcon from '@material-ui/icons/FilterList';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import Grid from "@material-ui/core/Grid";
 import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from "@material-ui/core/InputAdornment";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import SearchIcon from '@material-ui/icons/Search';
-import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -34,13 +26,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import TagFacesIcon from '@material-ui/icons/TagFaces';
 import TextField from "@material-ui/core/TextField";
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import {Context as UsuarioContext } from "../contexts/UsuarioContext";
+import {Context as UsuarioContext } from "../../contexts/UsuarioContext";
 
 const headCells = [
   { id: 'nombre', align: 'center', disablePadding: true, label: 'Nombre' },
@@ -252,8 +243,7 @@ export default function ListUsers() {
 
   const handleChange = (event) => {
     setParams({ ...params, [event.target.name]: event.target.value == "true"});
-    console.log(params)
-    console.log(event.target.name, event.target.value)
+    setPage(0);
   };
 
   const chipClasses = useChipStyles();

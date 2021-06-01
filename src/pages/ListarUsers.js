@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ListUsers from "../components/List-Users.component";
+import ListUsers from "../components/usuarios/List-Users.component";
 import AppBarSplash from "../components/shared/appbar.component";
 
 
