@@ -2,6 +2,30 @@ import React, {useEffect,useContext} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar'
+import Button from "@material-ui/core/Button";
+import Checkbox from '@material-ui/core/Checkbox';
+import Chip from '@material-ui/core/Chip';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import EmailIcon from "@material-ui/icons/Email";
+import FilterListIcon from '@material-ui/icons/FilterList';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Grid from "@material-ui/core/Grid";
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from "@material-ui/core/InputAdornment";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import SearchIcon from '@material-ui/icons/Search';
+import Select from '@material-ui/core/Select';
+import Switch from '@material-ui/core/Switch';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,15 +34,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import TagFacesIcon from '@material-ui/icons/TagFaces';
+import TextField from "@material-ui/core/TextField";
 import Toolbar from '@material-ui/core/Toolbar';
-import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import FilterListIcon from '@material-ui/icons/FilterList';
 
 import {Context as UsuarioContext } from "../contexts/UsuarioContext";
 
@@ -80,38 +100,25 @@ const useToolbarStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
   },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: '#601683',
-          backgroundColor: lighten('#601683', 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
   title: {
-    flex: '1 1 100%',
+    flex: '1 1 30%',
   },
 }));
 
-const EnhancedTableToolbar = (props) => {
-  const classes = useToolbarStyles();
+const useChipStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    listStyle: 'none',
+    padding: theme.spacing(0.5),
+    margin: 0,
+  },
+  chip: {
+    margin: theme.spacing(0.5),
+  },
+}));
 
-  return (
-    <Toolbar>
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Usuarios registrados
-        </Typography>
-
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-    </Toolbar>
-  );
-};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -123,17 +130,6 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     minWidth: 750,
-  },
-  visuallyHidden: {
-    border: 0,
-    clip: 'rect(0 0 0 0)',
-    height: 1,
-    margin: -1,
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    top: 20,
-    width: 1,
   },
   avatarSmall: {
     height: '20px',
@@ -148,31 +144,64 @@ const useStyles = makeStyles((theme) => ({
       color: '#601683',
     }
   },
-  tableRow: {
-    
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
   },
   tableHeaderCell: {
     fontWeight: 'bold',
     borderRight: '1px'
-  }
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const params = [];
 
 export default function ListUsers() {
   const classes = useStyles();
+  const toolbarClasses = useToolbarStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('name');
+
   const [dense, setDense] = React.useState(false);
   
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
+  
+  const [params, setParams] = React.useState({
+    nombre: null,
+    apellido: null,
+    correo: null,
+    usuario: null,
+    activo: null,
+    bloqueado: null
+  });
 
+  let filters = params;
+  
+  //! cambiar hardcode
+  let orders = 'usuario:asc';
+  
   const {state:{usuarios, lastDispatch}, getUsers } = useContext(UsuarioContext);
 
   useEffect(()=>(
-    getUsers(page, rowsPerPage, params)
-  ),[page,rowsPerPage, params, lastDispatch]);
+    getUsers(page, rowsPerPage, params, orders)
+  ),[page,rowsPerPage, params, orders, lastDispatch]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -193,11 +222,169 @@ export default function ListUsers() {
     setDense(event.target.checked);
   };
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClickOpen2 = () => {
+    setOpen2(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
+  };
+
+  const handleFilter = () => {
+    setParams(filters);
+    setOpen(false);
+    setPage(0);
+  }
+
+  const onChangeInput = (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    filters = { ...filters, [name]: value }
+  }
+
+  const handleChange = (event) => {
+    setParams({ ...params, [event.target.name]: event.target.value == "true"});
+    console.log(params)
+    console.log(event.target.name, event.target.value)
+  };
+
+  const chipClasses = useChipStyles();
+
+  const handleDelete = (param) => () => {
+    setParams({
+      ...params,
+      [param]: null
+    })
+  };
+
   return (
     <>
+      <Dialog open={open} onClose={handleClose}  aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">
+          Búsqueda
+        </DialogTitle>
+        
+        <DialogContent>
+          <div>
+            <span>
+              <CampoTexto 
+                onChangeInput={onChangeInput}
+                name="nombre" 
+                Label="Nombre"
+              />
+              <CampoTexto 
+                onChangeInput={onChangeInput}
+                name="apellido" 
+                Label="Apellido"
+              />
+            </span>
+          </div>
+          <div>
+            <span>
+              <CampoTexto 
+                onChangeInput={onChangeInput}
+                name="correo" 
+                Label="Correo"
+                defaultValue={params.correo}
+              />
+              <CampoTexto 
+                onChangeInput={onChangeInput}
+                name="usuario" 
+                Label="Usuario"
+              />
+            </span>
+          </div>
+        </DialogContent>
+
+        <DialogActions className="pb-4 mr-4">
+          <Button onClick={handleClose} color="primary">
+            Cancelar
+          </Button>
+          <Button onClick={handleFilter} color="primary" variant="contained">
+            Guardar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={open2} onClose={handleClose2}  aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">
+          Filtros
+        </DialogTitle>
+        
+        <DialogContent>
+          <span className="col">
+            <FormControl component="fieldset">
+            <FormLabel component="legend">Activo</FormLabel>
+            <RadioGroup aria-label="activo" name="activo" value={params.activo} onChange={handleChange}>
+              <FormControlLabel value={true} control={<Radio />} label="Sí" />
+              <FormControlLabel value={false} control={<Radio />} label="No" />
+            </RadioGroup>
+          </FormControl>
+          </span>
+          <span className="col">
+            <FormControl component="fieldset">
+            <FormLabel component="legend">Bloqueado</FormLabel>
+            <RadioGroup aria-label="bloqueado" name="bloqueado" value={params.bloqueado} onChange={handleChange}>
+              <FormControlLabel value={true} control={<Radio />} label="Sí" />
+              <FormControlLabel value={false} control={<Radio />} label="No" />
+            </RadioGroup>
+          </FormControl>
+          </span>
+        </DialogContent>
+
+        <DialogActions className="pb-4 mr-4">
+          <Button onClick={handleClose2} color="primary" variant="contained">
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
+
       <div className={classes.root}>
         <Paper className={classes.paper}>
-          <EnhancedTableToolbar/>
+          <Toolbar>
+            <Typography className={toolbarClasses.title} variant="h6" id="tableTitle" component="div">
+              Usuarios registrados
+            </Typography>
+            
+            
+            <span>
+              {Object.entries(params).filter(p => ![null, ''].includes(p[1])).map(p => Object({ key: p.index, label: p[0], value: p[1] })).map((data) => {
+
+                return (
+                  <span>
+                    <Chip
+                      label={`${data.label}: "${data.value}"`}
+                      onDelete={handleDelete(data.label)}
+                      className={chipClasses.chip}
+                    />
+                  </span>
+                );
+              })}
+            </span>
+
+            <Tooltip title="Buscar Usuarios">
+              <IconButton aria-label="Filtrar Usuarios" onClick={handleClickOpen}>
+                <SearchIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Filtrar Usuarios">
+              <IconButton aria-label="Filtrar Usuarios" onClick={handleClickOpen2}>
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          </Toolbar>
+
           <TableContainer>
             <Table
               className={classes.table}
@@ -226,7 +413,12 @@ export default function ListUsers() {
                         className={classes.tableRow}
                       >
                         <TableCell  component="th" align="right" scope="row" id={labelId}>
-                          <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={row.url_perfil}/>
+                          {
+                            row.url_perfil ?
+                            <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={row.url_perfil}/>
+                            :
+                            <Avatar>{row.nombre.slice(0,1).toUpperCase()}</Avatar>
+                          }
                         </TableCell>
                         <TableCell>{row.nombre}</TableCell>
                         <TableCell align="left">{row.apellido}</TableCell>
@@ -234,7 +426,6 @@ export default function ListUsers() {
                         <TableCell align="left">{row.usuario}</TableCell>
                         <TableCell align="center">{(row.activo ? 'Si' : 'No')}</TableCell>
                         <TableCell align="center">{(row.bloqueado ? 'Si' : 'No')}</TableCell>
-                        <TableCell align="center"></TableCell>
                       </TableRow>
                     );
                   })}
@@ -258,4 +449,22 @@ export default function ListUsers() {
       </div>
     </>
   );
+}
+
+export function CampoTexto({Label,Type="text",onChangeInput,name,error,helperText}){
+  return (
+    <span>
+    <TextField
+    fullWidth
+      error = {error}
+      helperText={error ? helperText : ""}
+      name={name}
+      variant="standard"
+      label={Label}
+      onChange={onChangeInput}
+      color="primary"
+      type={Type}
+    />
+  </span>
+  )
 }

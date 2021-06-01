@@ -22,7 +22,7 @@ const initialState = {
   message: "",
 };
 
-const getUsers = (dispatch) => (page, rowsPerPage, params) => {
+const getUsers = (dispatch) => (page, rowsPerPage, params, orders) => {
   var myInit = {
     'method': 'GET',
     'headers': {
@@ -32,13 +32,13 @@ const getUsers = (dispatch) => (page, rowsPerPage, params) => {
     },
   }
 
-  let query = params?.length > 0 ? `&${params.join('&')}` : '';
+  let query = '&' + Object.entries(params).map(e => [undefined, null, ''].includes(e[1]) ? null : `${e[0]}=${e[1]}`).filter(e => e).join('&');
+  let order = orders ? orders : 'nombre:asc';
 
-  fetch(BASE_URL + `users?page=${page}&size=${rowsPerPage}${query}`, myInit)
+  fetch(BASE_URL + `users?page=${page}&size=${rowsPerPage}&orders=${order}${query}`, myInit)
   .then(response => response.json())
   .then(data => {
     if (data) {
-      console.log(data);
       dispatch({ type: 'GET_USERS', payload: data })
     }
   });
