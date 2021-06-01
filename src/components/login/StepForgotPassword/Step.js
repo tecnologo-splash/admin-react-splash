@@ -40,7 +40,7 @@ export function StepComponent({stepIndex}) {
           fullWidth
           className="mb-4"
             variant="outlined"
-            label="Codigo de Verifiacion"
+            label="Codigo de Verificación"
             color="primary"
             type="text"
             required

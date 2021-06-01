@@ -253,7 +253,7 @@ export function NewAdmin() {
     
                 <Grid item xs={12}> 
                     <Typography variant="caption">
-                        * Campos obligatirios
+                        * Campos obligatorios
                     </Typography>
                 </Grid>
 
@@ -261,7 +261,7 @@ export function NewAdmin() {
             </DialogContent>
             <DialogActions className="pb-4 mr-4">
                 <Button onClick={handleClose} color="primary">
-                    Calcelar
+                    Cancelar
                 </Button>
                 <Button onClick={handleSubmit} color="primary" variant="contained">
                     Guardar

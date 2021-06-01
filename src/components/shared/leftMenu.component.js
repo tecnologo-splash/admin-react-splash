@@ -74,6 +74,12 @@ export default function LeftMenu() {
             <ListItemText primary={"Administradores"} />
           </ListItem>
         </Link>
+        <Link href="/usuarios" style={{ textDecoration: 'none', color: 'black' }}>
+          <ListItem button>
+            <ListItemIcon> <GroupIcon /> </ListItemIcon>
+            <ListItemText primary={"Usuarios"} />
+          </ListItem>
+        </Link>
       </List>
       <Divider />
       <List>

@@ -55,7 +55,7 @@ export function ForgotPassword() {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Reseteo de Contraseña</DialogTitle>
+        <DialogTitle id="form-dialog-title">Reestablecer Contraseña</DialogTitle>
         <DialogContent>
 
 
@@ -75,9 +75,9 @@ export function ForgotPassword() {
                     style={{ fontSize: 40 }}
                     color="primary"
                   />
-                  Proceso finalizado con exito
+                  Proceso finalizado con éxito
                 </Typography>
-                <Button onClick={handleReset}>Reset</Button>
+                <Button onClick={handleReset}>Reiniciar</Button>
               </div>
             ) : (
               <div>
@@ -85,7 +85,7 @@ export function ForgotPassword() {
             
                 <div className="col-md-12 d-flex justify-content-center">
                   <Button disabled={activeStep === 0} onClick={handleBack}>
-                    Atras
+                    Atrás
                   </Button>
                   <Button
                     variant="contained"
