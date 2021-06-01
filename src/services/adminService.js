@@ -55,34 +55,6 @@ export const delAdminUser = async (userId) => {
     })
 }
 
-export const lockingUser = async (userId, bloqueado) => {
-    
-    var newState = { 
-        "bloqueado" : bloqueado
-    }
-
-    var myInit = {
-        'method': 'PUT',
-        headers: {
-            'Content-Type': "application/json",
-            'Authorization': "Bearer " + getToken(),
-        },
-        body: JSON.stringify(newState)
-    }
-    
-    return await fetch(BASE_URL + "users/" + userId, myInit)
-    .then(async (response) => {
-        if (response.ok) {
-            let json = await response.json();
-            return {error: false, message: json.message}
-        } else {
-            let json = await response.json();
-            return {error: true, message: json.message}
-        }
-    })
-}
-
-
 const sendRecoveryMail =  (dispatch) => async (correo) => {
     
     var credentials = { 
