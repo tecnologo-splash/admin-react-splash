@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -15,49 +15,109 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import EmailIcon from "@material-ui/icons/Email";
 import Typography from '@material-ui/core/Typography';
 import SaveIcon from '@material-ui/icons/Save';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import { makeStyles } from '@material-ui/core/styles';
-import {Context as AdminContext} from "../contexts/AdminContext";
+import {Context as AdminContext} from "../../contexts/AdminContext";
+
+import { addAdminUser } from '../../services/adminService';
+
 
 const useStyles = makeStyles((theme) => ({
     button: {
       margin: theme.spacing(1),
     },
+    divButtons: {
+      textAlign: "right"
+    }
   }));
 
 export function NewAdmin() {
+  const { getAdminUsers } = useContext(AdminContext)
+  
   const classes = useStyles();
   
   const [open, setOpen] = useState(false);
   const [passVisible, setPassVisible] = useState(false);
-  const [submit, setSubmit] = useState(false);
-  
+  const [errorMessage, setErrorMessage] = useState("");
+
   const [datosUsuario,setDatosUsuario]=useState({
-    nombre:null,
-    apellido:null,
-    usuario:null,
-    clave:null,
-    correo:null,
-    confirmar:null,
+    nombre:"",
+    apellido:"",
+    usuario:"",
+    clave:"",
+    correo:"",
+    confirmar:"",
   });
   
-  const { addAdminUser } = useContext(AdminContext);
+  const [errores,setErrores] = useState({
+    usuario:  {error: false, mensaje: ''},
+    nombre:   {error: false, mensaje: ''},
+    apellido: {error: false, mensaje: ''},
+    correo:   {error: false, mensaje: ''},
+    clave:    {error: false, mensaje: ''},    
+  })
+
+  const { state } = useContext(AdminContext);
 
   const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
   const handleSubmit = () => {
+    
+    var erroresLocal = {
+      usuario:  {error: false, mensaje: ''},
+      nombre:   {error: false, mensaje: ''},
+      apellido: {error: false, mensaje: ''},
+      correo:   {error: false, mensaje: ''},
+      clave:    {error: false, mensaje: ''},    
+    }
+
     var error = false
     
-    error = datosUsuario.password !== datosUsuario.clave;
-    error = !emailRegex.test(datosUsuario.correo)
-    
-    if (!error){
-      addAdminUser(datosUsuario);
-      handleClose()
-    } else {
-      setSubmit(true);
+    if(datosUsuario.nombre === ""){
+      error = true;
+      erroresLocal.nombre = {error: true, mensaje:'Campo requerido'}
     }
     
+    if(datosUsuario.apellido === ""){
+      error = true;
+      erroresLocal.apellido = {error: true, mensaje:'Campo requerido'}
+    }
+    
+    if(datosUsuario.usuario === ""){
+      error = true;
+      erroresLocal.usuario = {error: true, mensaje:'Campo requerido'}
+    }
+    if(datosUsuario.clave === ""){
+      error = true;
+      erroresLocal.clave = {error: true, mensaje:'Campo requerido'}
+    }
+    
+    if(!emailRegex.test(datosUsuario.correo)){
+      error = true;
+      erroresLocal.correo = {error: true, mensaje:'Correo Inválido'}
+    }
+    
+    if(datosUsuario.clave !== datosUsuario.confirmar){
+      error = true
+      erroresLocal.clave = {error: true, mensaje:'Claves no coinciden'}
+    }
+    setErrores(erroresLocal)
+
+    console.log(error)
+    if (!error){
+      addAdminUser(datosUsuario).then(
+        response => {
+          if(!response.error) {
+            getAdminUsers(0,10)
+            handleClose()
+          } else {
+            setErrorMessage(response.message)
+            handleErrorOpen()
+          }
+        }
+      );    
+    }
   }
 
   const onChangeInput = (event) => {
@@ -68,6 +128,11 @@ export function NewAdmin() {
       ...datosUsuario,
       [name]: value
     })
+    setErrores({
+      ...errores,
+      [name]: {error: false, mensaje: ''}
+    })
+    
   }
 
   const handleClickOpen = () => {
@@ -75,25 +140,46 @@ export function NewAdmin() {
   };
 
   const handleClose = () => {
+    setDatosUsuario({
+      nombre:"",
+      apellido:"",
+      usuario:"",
+      clave:"",
+      correo:"",
+      confirmar:"",
+    })
     setOpen(false);
+  };
+  
+  const [openError, setOpenError] = React.useState(false);
+    
+  const handleErrorClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenError(false);
+  };
+
+  const handleErrorOpen = () => {
+    setOpenError(true);
   };
 
 
   return (
     <div>
-
+      <div className={classes.divButtons}>
         <Button
             className="mt-2"
             onClick={handleClickOpen}
             variant="contained"
             color="primary"
-            size="small"
+            size="large"
             className={classes.button}
             startIcon={<SaveIcon />}
         >
-            Nuevo Administrador
+            Nuevo
         </Button>
-
+      </div>
         <Dialog
             open={open}
             onClose={handleClose}
@@ -104,28 +190,43 @@ export function NewAdmin() {
             </DialogTitle>
             
             <DialogContent>
+
+            <Snackbar
+              message={errorMessage}
+              open={openError}
+              onClose={() => handleErrorClose()}
+              autoHideDuration={3000}
+            />
+
               <Grid container spacing={2}  >
                 <CampoTexto 
+                    onChangeInput={onChangeInput}
+                    helperText={errores.nombre.mensaje} 
+                    error={errores.nombre.error}  
                     name="nombre"
                     Label="Nombre" 
                     Icon={<AccountCircle />}
                 />
                 <CampoTexto 
                   onChangeInput={onChangeInput} 
+                  helperText={errores.apellido.mensaje} 
+                  error={errores.apellido.error}  
                   name="apellido" 
                   Label="Apellido" 
                   Icon={<AccountCircle />}
                 />
                 <CampoTexto 
-                  onChangeInput={onChangeInput} 
+                  onChangeInput={onChangeInput}
+                  helperText={errores.usuario.mensaje} 
+                  error={errores.usuario.error}  
                   name="usuario" 
                   Label="Usuario" 
                   Icon={<AccountCircle />}
                 />
                 <CampoTexto 
                   onChangeInput={onChangeInput} 
-                  helperText={"Formato de correo inválido"} 
-                  error={submit && !emailRegex.test(datosUsuario.correo)} 
+                  helperText={errores.correo.mensaje} 
+                  error={errores.correo.error} 
                   name="correo" 
                   Label="Email" 
                   Icon={<EmailIcon />} 
@@ -133,8 +234,8 @@ export function NewAdmin() {
                 />
                 <CampoTexto 
                   onChangeInput={onChangeInput} 
-                  helperText={"Claves no coinciden"} 
-                  error={datosUsuario.clave !== datosUsuario.confirmar} 
+                  helperText={errores.clave.mensaje} 
+                  error={errores.clave.error} 
                   name="clave" 
                   Label="Contraseña" 
                   Icon={<VpnKeyIcon />} 
@@ -179,12 +280,13 @@ export function NewAdmin() {
     </div>
   );
 }
-export function CampoTexto({Label,Icon,Type="text",onChangeInput,name,error,helperText}){
+export function CampoTexto({Label,Icon,Type="text",onChangeInput,name,error,helperText,value}){
 
   return (
     <Grid item xs={6} className="mt-3">
     <TextField
     fullWidth
+      value = {value}
       error = {error}
       helperText={error ? helperText : ""}
       name={name}
