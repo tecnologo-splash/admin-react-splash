@@ -81,3 +81,56 @@ export const lockingUser = async (userId, bloqueado) => {
         }
     })
 }
+
+
+const sendRecoveryMail =  (dispatch) => async (correo) => {
+    
+    var credentials = { 
+        "correo": correo,
+    }
+
+    var myInit = {
+        'method': 'POST',
+        headers: {'Content-Type': "application/json"},
+        'body': JSON.stringify(credentials)
+    }
+    
+    return await fetch(BASE_URL + "users/recovery-password", myInit)
+    .then( async response => {
+        if (response.ok) {
+            let data = await response.json()
+            return {error: false, message: data.message}
+        } else {
+            let json = await response.json();
+            return  {error: true, message: json.message}
+        }
+
+    });
+}
+
+const changePassword =  (dispatch) => async (correo,codigo,clave) => {
+    
+    var credentials = { 
+        "correo": correo,
+        "codigo": codigo,
+        "clave":clave,
+    }
+
+    var myInit = {
+        'method': 'POST',
+        headers: {'Content-Type': "application/json"},
+        'body': JSON.stringify(credentials)
+    }
+    
+    return await fetch(BASE_URL + "users/recovery-password", myInit)
+    .then( async response => {
+        if (response.ok) {
+            let data = await response.json()
+            return {error: false, message: data.message}
+        } else {
+            let json = await response.json();
+            return  {error: true, message: json.message}
+        }
+
+    });
+}

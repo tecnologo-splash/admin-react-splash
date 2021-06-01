@@ -7,7 +7,9 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Box from  "@material-ui/core/Box";
 
-export function SetpComponent({stepIndex}) {
+
+
+export function StepComponent({stepIndex}) {
     switch (stepIndex) {
       case 0:
         return (
