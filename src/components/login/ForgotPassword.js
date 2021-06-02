@@ -12,7 +12,8 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
-import { SetpComponent } from "./StepForgotPassword/Step";
+import { StepComponent } from "./StepForgotPassword/Step";
+import { sendRecoveryMail, changePassword } from "../../services/adminService"
 
 export function ForgotPassword() {
   const [open, setOpen] = useState(false);
@@ -80,7 +81,7 @@ export function ForgotPassword() {
               </div>
             ) : (
               <div>
-                  <SetpComponent stepIndex={activeStep} />
+                  <StepComponent stepIndex={activeStep} />
             
                 <div className="col-md-12 d-flex justify-content-center">
                   <Button disabled={activeStep === 0} onClick={handleBack}>
@@ -91,7 +92,7 @@ export function ForgotPassword() {
                     color="primary"
                     onClick={handleNext}
                   >
-                    {activeStep === steps.length - 1 ? "Finalizar" : "Sigueinte"}
+                    {activeStep === steps.length - 1 ? "Finalizar" : "Siguiente"}
                   </Button>
                 </div>
               </div>

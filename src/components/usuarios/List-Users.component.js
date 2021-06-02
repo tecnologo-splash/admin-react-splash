@@ -32,6 +32,9 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import {Context as UsuarioContext } from "../../contexts/UsuarioContext";
+import { LockUser } from "./Lock-User.component";
+import { UnlockUser } from "./Unlock-User.component";
+import { DelUser } from "./Del-User.component";
 
 const headCells = [
   { id: 'nombre', align: 'center', disablePadding: true, label: 'Nombre' },
@@ -74,6 +77,8 @@ function EnhancedTableHead(props) {
         ))}
         <TableCell className={classes.tableHeaderCell} align="center">Activo</TableCell>
         <TableCell className={classes.tableHeaderCell} align="center">Bloqueado</TableCell>
+        <TableCell className={classes.tableHeaderCell} align="center"></TableCell>
+        <TableCell className={classes.tableHeaderCell} align="center"></TableCell>
       </TableRow>
     </TableHead>
   );
@@ -410,6 +415,8 @@ export default function ListUsers() {
                         <TableCell align="left">{row.usuario}</TableCell>
                         <TableCell align="center">{(row.activo ? 'Si' : 'No')}</TableCell>
                         <TableCell align="center">{(row.bloqueado ? 'Si' : 'No')}</TableCell>
+                        <TableCell align="center"> {(row.bloqueado ?  <UnlockUser user={row} page={page} size={rowsPerPage} params={params} orders={orders}/> : <LockUser user={row} page={page} size={rowsPerPage} params={params} orders={orders}/> )}</TableCell>
+                        <TableCell align="center">{(row.activo ? <DelUser user={row} page={page} size={rowsPerPage} params={params} orders={orders}/> : null )}</TableCell>
                       </TableRow>
                     );
                   })}

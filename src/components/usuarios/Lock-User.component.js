@@ -8,10 +8,10 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import BlockIcon from '@material-ui/icons/Block';
 
-import {Context as AdminContext} from "../../contexts/AdminContext";
+import {Context as UsuarioContext} from "../../contexts/UsuarioContext";
 import { makeStyles } from '@material-ui/core/styles';
 
-import { lockingUser } from '../../services/adminService';
+import { lockingUser } from '../../services/userService';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,14 +28,14 @@ export function LockUser(props) {
   
   const classes = useStyles();
   
-  //const { getUsers } = useContext(UserContext)
+  const { getUsers } = useContext(UsuarioContext)
   const [open, setOpen] = useState(false);
 
   const handleSubmit = (userId) => {
     lockingUser(userId,true).then(
       response => {
         if(!response.error) {
-          //getUsers(props.page,props.size)
+          getUsers(props.page, props.size, props.params, props.orders)
           handleClose()
         } else {
           setErrorMessage(response.message)
@@ -93,7 +93,7 @@ export function LockUser(props) {
                 onClose={() => handleErrorClose()}
                 autoHideDuration={3000}
               />
-
+            {console.log(props.user)}
             </DialogContent>
 
             <DialogActions className="pb-4 mr-4">

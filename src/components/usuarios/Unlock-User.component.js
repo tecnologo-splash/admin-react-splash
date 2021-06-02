@@ -8,10 +8,10 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 
-import {Context as AdminContext} from "../../contexts/AdminContext";
+import {Context as UsuarioContext} from "../../contexts/UsuarioContext";
 import { makeStyles } from '@material-ui/core/styles';
 
-import { lockingUser } from '../../services/adminService';
+import { lockingUser } from '../../services/userService';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -27,7 +27,7 @@ export function UnlockUser(props) {
   
   const classes = useStyles();
   
-  //const { getUsers } = useContext(UserContext)
+  const { getUsers } = useContext(UsuarioContext)
   const [open, setOpen] = useState(false);
 
   
@@ -36,7 +36,7 @@ export function UnlockUser(props) {
     lockingUser(userId,false).then(
       response => {
         if(!response.error) {
-          //getUsers(props.page,props.size)
+          getUsers(props.page,props.size,props.params,props.orders)
           handleClose()
         } else {
           setErrorMessage(response.message)

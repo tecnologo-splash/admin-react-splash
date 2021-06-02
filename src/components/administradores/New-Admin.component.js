@@ -257,15 +257,6 @@ export function NewAdmin() {
                     </Typography>
                 </Grid>
 
-                <Grid item xs={12}> 
-                    <Typography variant="caption" display="block" gutterBottom>
-                        Al hacer clic en Registrarte,
-                        <Link href="#">
-                            {' aceptas las Condiciones y la Política de datos '}
-                        </Link>
-                        del servicio en cuestión
-                    </Typography>
-                </Grid>
               </Grid>
             </DialogContent>
             <DialogActions className="pb-4 mr-4">

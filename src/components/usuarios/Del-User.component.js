@@ -8,10 +8,10 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import {Context as AdminContext} from "../../contexts/AdminContext";
+import { Context as UsuarioContext} from "../../contexts/UsuarioContext";
 import { makeStyles } from '@material-ui/core/styles';
 
-import { delUser } from '../../services/adminService';
+import { delUser } from '../../services/userService';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,15 +28,15 @@ export function DelUser(props) {
   
   const classes = useStyles();
   
-  //const { getUsers } = useContext(UserContext)
+  const { getUsers } = useContext(UsuarioContext)
   const [open, setOpen] = useState(false);
   
   const handleSubmit = (userId) => {
     
-    delAdminUser(userId).then(
+    delUser(userId).then(
       response => {
         if(!response.error) {
-          //getUsers(props.page,props.size)
+          getUsers(props.page, props.size, props.params, props.orders)
           handleClose()
         } else {
           setErrorMessage(response.message)
@@ -102,7 +102,7 @@ export function DelUser(props) {
                 <Button onClick={handleClose} outline color="primary">
                     Calcelar
                 </Button>
-                <Button onClick={() => handleSubmit(props.admin.id)} color="secondary" variant="contained">
+                <Button onClick={() => handleSubmit(props.user.id)} color="secondary" variant="contained">
                     Eliminar
                 </Button>
                 
