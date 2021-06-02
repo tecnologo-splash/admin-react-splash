@@ -402,12 +402,7 @@ export default function ListUsers() {
                         className={classes.tableRow}
                       >
                         <TableCell  component="th" align="right" scope="row" id={labelId}>
-                          {
-                            row.url_perfil ?
-                            <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={row.url_perfil}/>
-                            :
-                            <Avatar>{row.nombre.slice(0,1).toUpperCase()}</Avatar>
-                          }
+                          <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={row.url_perfil}>{row.nombre.slice(0,1).toUpperCase()}</Avatar>
                         </TableCell>
                         <TableCell>{row.nombre}</TableCell>
                         <TableCell align="left">{row.apellido}</TableCell>
