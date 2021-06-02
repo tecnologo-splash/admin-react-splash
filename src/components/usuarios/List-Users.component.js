@@ -165,7 +165,7 @@ export default function ListUsers() {
   const classes = useStyles();
   const toolbarClasses = useToolbarStyles();
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('name');
+  const [orderBy, setOrderBy] = React.useState('nombre');
 
   const [dense, setDense] = React.useState(false);
   
@@ -185,8 +185,7 @@ export default function ListUsers() {
 
   let filters = params;
   
-  //! cambiar hardcode
-  let orders = 'usuario:asc';
+  let orders = `${orderBy}:${order}`;
   
   const {state:{usuarios, lastDispatch}, getUsers } = useContext(UsuarioContext);
 
