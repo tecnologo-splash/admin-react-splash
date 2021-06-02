@@ -22,11 +22,11 @@ function App() {
             <AppRoute path={"/inicio"} component={Inicio} isPrivate={true} />
             <AppRoute path={"/administradores"} component={Administradores} isPrivate={true} />
             
+            <Redirect to="/inicio" />
             <UsuarioProvider>
               <AppRoute path={"/usuarios"} component={ListarUsers} isPrivate={true} />
             </UsuarioProvider>
-            <Redirect to="/inicio" />
-        
+    
           </Switch>
         </Router>
       </Suspense>
