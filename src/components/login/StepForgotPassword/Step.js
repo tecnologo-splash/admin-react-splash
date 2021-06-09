@@ -4,19 +4,29 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import EmailIcon from "@material-ui/icons/Email";
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import Box from  "@material-ui/core/Box";
+import React, {useState} from 'react';
 
 
+export function StepComponent({stepIndex,onChangeData,data}) {
 
-export function StepComponent({stepIndex}) {
+    const [ showPass, setShowPass ] = useState(false);
+    const showPassword = () => {
+      setShowPass(!showPass)
+    }
+
     switch (stepIndex) {
       case 0:
         return (
         
             <TextField
-            fullWidth
-            className="mb-4"
+              fullWidth
+              onChange={onChangeData}
+              value={data.email}
+              name="email"
+              className="mb-4"
               variant="outlined"
               label="Email"
               color="primary"
@@ -37,8 +47,11 @@ export function StepComponent({stepIndex}) {
         return (
           
           <TextField
-          fullWidth
-          className="mb-4"
+            fullWidth
+            onChange={onChangeData}
+            value={data.codigo}
+            name="codigo"
+            className="mb-4"
             variant="outlined"
             label="Codigo de Verificación"
             color="primary"
@@ -57,17 +70,25 @@ export function StepComponent({stepIndex}) {
       case 2:
         return (
           <TextField
-          fullWidth
-          className="mb-4"
+            fullWidth
+            onChange={onChangeData}
+            value={data.nuevaClave}
+            name="nuevaClave"
+            className="mb-4"
             variant="outlined"
             label="Nueva Contraseña"
             color="primary"
-            type="text"
+            type={showPass ? "text" : "password"}
             required
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <VpnKeyIcon />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end" onClick={showPassword} style={{cursor:"pointer"}}>
+                  <VisibilityIcon />
                 </InputAdornment>
               ),
             }}

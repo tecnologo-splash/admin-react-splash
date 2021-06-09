@@ -100,7 +100,7 @@ export function DelUser(props) {
             <DialogActions className="pb-4 mr-4">
               
                 <Button onClick={handleClose} outline color="primary">
-                    Calcelar
+                    Cancelar
                 </Button>
                 <Button onClick={() => handleSubmit(props.user.id)} color="secondary" variant="contained">
                     Eliminar

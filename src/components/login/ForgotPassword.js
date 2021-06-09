@@ -5,7 +5,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
-
+import Snackbar from '@material-ui/core/Snackbar';
 import Typography from "@material-ui/core/Typography";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -26,15 +26,57 @@ export function ForgotPassword() {
     setOpen(false);
   };
 
+  const sendMail = () => {
+    sendRecoveryMail(data.email)
+    .then(
+      response => {
+        if(!response.error) {
+          setErrorMessage(response.message)
+          handleErrorOpen()
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        } else {
+          setErrorMessage(response.message)
+          handleErrorOpen()
+        }
+      }
+    );    
+  }
+
+  const changeNewPassword = () =>{
+    changePassword(data.email, data.codigo, data.nuevaClave)
+    .then(
+      response => {
+        if(!response.error) {
+          setErrorMessage(response.message)
+          handleErrorOpen()
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+          console.log(response.message)
+        } else {
+          console.log(response.message)
+          setErrorMessage(response.message)
+          handleErrorOpen()
+        }
+      }
+    );    
+  }
+
   function getSteps() {
-    return ["Ingresar email", "Codigo de verificacion", "Nueva contraseña"];
+    return ["Ingresar email", "Código de verificación", "Nueva contraseña"];
   }
 
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if( activeStep === 0){
+      sendMail()
+    }
+    if( activeStep === 1){
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
+    if( activeStep === 2){
+      changeNewPassword()
+    }
   };
 
   const handleBack = () => {
@@ -45,8 +87,38 @@ export function ForgotPassword() {
     setActiveStep(0);
   };
 
+
+  const [errorMessage, setErrorMessage ] = useState("");
+  const [openError, setOpenError] = React.useState(false);
+  const handleErrorClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenError(false);
+  };
+  const handleErrorOpen = () => {
+    setOpenError(true);
+  };
+
+
+  const [data, setData] = useState({email: "", codigo: "", nuevaClave:""});
+    
+  const onChangeData = (event) => {
+    let name = event.target.name
+    let value = event.target.value
+    
+    setData({...data, [name]: value})
+  }
+
+
   return (
     <div>
+      <Snackbar
+        message={errorMessage}
+        open={openError}
+        onClose={() => handleErrorClose()}
+        autoHideDuration={3000}
+      />
       <Link component="button" variant="body2" onClick={handleClickOpen}>
         ¿Olvidaste tu contraseña?
       </Link>
@@ -81,8 +153,13 @@ export function ForgotPassword() {
               </div>
             ) : (
               <div>
-                  <StepComponent stepIndex={activeStep} />
-            
+
+                <StepComponent 
+                  stepIndex={activeStep} 
+                  onChangeData={onChangeData} 
+                  data={data}
+                />
+                
                 <div className="col-md-12 d-flex justify-content-center">
                   <Button disabled={activeStep === 0} onClick={handleBack}>
                     Atrás
@@ -105,6 +182,7 @@ export function ForgotPassword() {
           </Button>
         </DialogActions>
       </Dialog>
+      
     </div>
   );
 }

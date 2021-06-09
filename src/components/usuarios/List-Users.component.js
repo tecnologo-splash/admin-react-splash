@@ -1,4 +1,4 @@
-import React, {useEffect,useContext} from 'react';
+import React, {useEffect,useContext,useState} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar'
@@ -169,17 +169,17 @@ const params = [];
 export default function ListUsers() {
   const classes = useStyles();
   const toolbarClasses = useToolbarStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('name');
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('name');
 
-  const [dense, setDense] = React.useState(false);
+  const [dense, setDense] = useState(false);
   
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [open, setOpen] = React.useState(false);
-  const [open2, setOpen2] = React.useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
   
-  const [params, setParams] = React.useState({
+  const [params, setParams] = useState({
     nombre: null,
     apellido: null,
     correo: null,

@@ -68,6 +68,7 @@ export default function LeftMenu() {
             <ListItemText primary={"Inicio"} />
           </ListItem>
         </Link>
+        <Divider />
         <Link href="/administradores" style={{ textDecoration: 'none', color: 'black' }}>
           <ListItem button>
             <ListItemIcon> <GroupIcon /> </ListItemIcon>
@@ -82,14 +83,14 @@ export default function LeftMenu() {
         </Link>
       </List>
       <Divider />
-      <List>
+      {/* <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </div>
   );
 

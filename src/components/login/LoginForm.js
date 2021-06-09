@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import VisibilityIcon from '@material-ui/icons/Visibility';
 import { ForgotPassword } from './ForgotPassword';
 import {Context as AdminContext} from "../../contexts/AdminContext";
 import { useState, useContext, useEffect } from "react";
@@ -86,6 +87,11 @@ export function LoginForm() {
         history.push("/inicio")
     })
 
+    const [ showPass, setShowPass ] = useState(false);
+    const showPassword = () => {
+      setShowPass(!showPass)
+    }
+
     return(
         <div className="col-sm-4 col-md-3 offset-md-1">
 
@@ -124,13 +130,19 @@ export function LoginForm() {
                 css={inputStyles}
                 label="Contraseña"
                 color="primary"
-                type="password"
+                //type="password"
+                type={showPass ? "text" : "password"}
                 onChange={onChangePassword}
                 required
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
                       <VpnKeyIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end" onClick={showPassword} style={{cursor:"pointer"}}>
+                      <VisibilityIcon />
                     </InputAdornment>
                   ),
                 }}

@@ -146,7 +146,7 @@ const logout = (dispatch) => () => {
 
 }
 
-const getAdminUsers = (dispatch) => (page, rowsPerPage) => {
+const getAdminUsers = (dispatch) => (page, rowsPerPage, params, orders) => {
     var myInit = {
         'method': 'GET',
         headers: {
@@ -155,7 +155,10 @@ const getAdminUsers = (dispatch) => (page, rowsPerPage) => {
         },
     }
     
-    fetch(BASE_URL + "users/admin?page=" + page + "&size=" + rowsPerPage, myInit)
+    let query = '&' + Object.entries(params).map(e => [undefined, null, ''].includes(e[1]) ? null : `${e[0]}=${e[1]}`).filter(e => e).join('&');
+    let order = orders ? orders : 'nombre:asc';
+
+    fetch(BASE_URL + `users/admin?page=${page}&size=${rowsPerPage}&orders=${order}${query}`, myInit)
     .then(response => response.json())
     .then(data => {
         if (data) {

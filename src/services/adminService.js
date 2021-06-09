@@ -55,7 +55,7 @@ export const delAdminUser = async (userId) => {
     })
 }
 
-const sendRecoveryMail =  (dispatch) => async (correo) => {
+export const sendRecoveryMail = async (correo) => {
     
     var credentials = { 
         "correo": correo,
@@ -80,12 +80,12 @@ const sendRecoveryMail =  (dispatch) => async (correo) => {
     });
 }
 
-const changePassword =  (dispatch) => async (correo,codigo,clave) => {
+export const changePassword = async (correo,codigo,clave) => {
     
     var credentials = { 
         "correo": correo,
         "codigo": codigo,
-        "clave":clave,
+        "clave": clave,
     }
 
     var myInit = {
