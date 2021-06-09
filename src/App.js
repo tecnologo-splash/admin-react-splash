@@ -25,8 +25,9 @@ function App() {
             <UsuarioProvider>
               <AppRoute path={"/usuarios"} component={ListarUsers} isPrivate={true} />
             </UsuarioProvider>
+            
             <Redirect to="/inicio" />
-        
+    
           </Switch>
         </Router>
       </Suspense>

@@ -169,8 +169,8 @@ const params = [];
 export default function ListUsers() {
   const classes = useStyles();
   const toolbarClasses = useToolbarStyles();
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('name');
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('nombre');
 
   const [dense, setDense] = useState(false);
   
@@ -190,8 +190,7 @@ export default function ListUsers() {
 
   let filters = params;
   
-  //! cambiar hardcode
-  let orders = 'usuario:asc';
+  let orders = `${orderBy}:${order}`;
   
   const {state:{usuarios, lastDispatch}, getUsers } = useContext(UsuarioContext);
 
@@ -408,12 +407,7 @@ export default function ListUsers() {
                         className={classes.tableRow}
                       >
                         <TableCell  component="th" align="right" scope="row" id={labelId}>
-                          {
-                            row.url_perfil ?
-                            <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={row.url_perfil}/>
-                            :
-                            <Avatar>{row.nombre.slice(0,1).toUpperCase()}</Avatar>
-                          }
+                          <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={row.url_perfil}>{row.nombre.slice(0,1).toUpperCase()}</Avatar>
                         </TableCell>
                         <TableCell>{row.nombre}</TableCell>
                         <TableCell align="left">{row.apellido}</TableCell>
