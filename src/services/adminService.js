@@ -106,3 +106,27 @@ export const changePassword = async (correo,codigo,clave) => {
 
     });
 }
+
+
+export const getEstadisticasGenero = async () => {
+    
+    var myInit = {
+        'method': 'GET',
+        headers: {'Content-Type': "application/json",
+                  'Authorization': "Bearer " + getToken()
+        },
+    }
+    
+    return await fetch(BASE_URL + "estadisticas/genero", myInit)
+    .then( async response => {
+        console.log(response)
+        if (response.ok) {
+            return await response.json()
+            
+        } else {
+            let json = await response.json();
+            return  {error: true, message: json.message}
+        }
+
+    });
+}
