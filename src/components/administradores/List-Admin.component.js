@@ -323,8 +323,10 @@ export default function ListAdmin() {
                 onRequestSort={handleRequestSort}
                 rowCount={admins?.content?.length}
               />
+              {console.log(admins)}
             <TableBody>
               { 
+                
                 admins.content &&
                 admins.content.map((row,index)=> {
                   return(

@@ -5,3 +5,11 @@ export const isAuthenticated = () => {
 export const getToken = () => {
     return localStorage.getItem("tokenSplash");
 }
+
+
+export const checkSession = (response) => {
+    if(response.status === 403){
+        localStorage.removeItem("tokenSplash");
+        window.location.reload();
+    }
+}

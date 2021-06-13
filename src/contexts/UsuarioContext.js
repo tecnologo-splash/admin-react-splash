@@ -1,5 +1,6 @@
 import { BASE_URL } from "../config/settings"
 import crearContext from "./crearContext";
+import { checkSession } from "../services/auth";
 
 const UsuarioReducer = (state, action) => {
   switch (action.type) {
@@ -36,7 +37,9 @@ const getUsers = (dispatch) => (page, rowsPerPage, params, orders) => {
   let order = orders ? orders : 'nombre:asc';
 
   fetch(BASE_URL + `users?page=${page}&size=${rowsPerPage}&orders=${order}${query}`, myInit)
-  .then(response => response.json())
+  .then(response => 
+    response.json()
+   )
   .then(data => {
     if (data) {
       dispatch({ type: 'GET_USERS', payload: data })

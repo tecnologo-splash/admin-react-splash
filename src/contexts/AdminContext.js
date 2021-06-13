@@ -6,6 +6,7 @@ import crearContext from "./crearContext";
 import {request} from "../api/GeneralAPI";
 import {API_ROUTES} from "../api/apiRoutes";
 import {METHOD} from "../api/apiMethod";
+import { checkSession } from "../services/auth";
 
 
 // conocimiento no equivale a sabiduria, sabiduria es hacer las cosas 
@@ -61,30 +62,8 @@ const initialState = {
     dispatchError: "",
 };
 
-/*
-const login = (dispatch) => (username, password) => {
-    var credentials = { 
-        "correo": username, 
-        "clave": password 
-    }
-
-    request(API_ROUTES.login,METHOD.POST,credentials).then(data => {
-        console.log(data)
-        if (data.token) {
-            localStorage.setItem("tokenSplash",data.token);
-            dispatch({ type: 'SET_TOKEN', payload: data.token })
-        }
-    });
-}
-*/
 
 const login =  (dispatch) => async (username, password) => {
-    /*
-    var credentials = { 
-        "correo": username, 
-        "clave": password 
-    }
-    */
 
     let credentials={clave:password}
     if (userOrEmail(username)) {
@@ -164,7 +143,7 @@ const getAdminUsers = (dispatch) => (page, rowsPerPage, params, orders) => {
         if (data) {
             dispatch({ type: 'GET_ADMIN_USERS', payload: data })
         }
-    });
+    })
 }
 
 

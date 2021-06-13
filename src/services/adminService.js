@@ -1,5 +1,5 @@
 import { BASE_URL } from "../config/settings";
-import { getToken } from "./auth";
+import { getToken, checkSession } from "./auth";
 
 export const addAdminUser = async (usuario) => {
     
@@ -22,6 +22,7 @@ export const addAdminUser = async (usuario) => {
     
     return await fetch(BASE_URL + "users/admin/sign-up", myInit)
     .then(async (response) => {
+        checkSession(response)
         if (response.ok) {
             let json = await response.json();
             return {error: false, message: json.message}
@@ -45,6 +46,7 @@ export const delAdminUser = async (userId) => {
     
     return await fetch(BASE_URL + "users/admin/" + userId, myInit)
     .then(async (response) => {
+        checkSession(response)
         if (response.ok) {
             let json = await response.json();
             return {error: false, message: json.message}
@@ -69,6 +71,7 @@ export const sendRecoveryMail = async (correo) => {
     
     return await fetch(BASE_URL + "users/recovery-password", myInit)
     .then( async response => {
+        checkSession(response)
         if (response.ok) {
             let data = await response.json()
             return {error: false, message: data.message}
@@ -96,6 +99,7 @@ export const changePassword = async (correo,codigo,clave) => {
     
     return await fetch(BASE_URL + "users/recovery-password", myInit)
     .then( async response => {
+        checkSession(response)
         if (response.ok) {
             let data = await response.json()
             return {error: false, message: data.message}
@@ -119,7 +123,7 @@ export const getEstadisticasGenero = async () => {
     
     return await fetch(BASE_URL + "estadisticas/genero", myInit)
     .then( async response => {
-        console.log(response)
+        checkSession(response)
         if (response.ok) {
             return await response.json()
             

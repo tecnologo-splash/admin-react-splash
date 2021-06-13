@@ -43,14 +43,16 @@ export default function Genero() {
     }
     
     useEffect(()=>{
+        let datos = []
         getEstadisticasGenero()
         .then((data) => {
             valores.map((valor)=>{
-                estadisticas.push({
+                datos.push({
                     name: valor.trim().replace(/^\w/, (c) => c.toUpperCase()), //valor, 
                     y: data[valor]
                 })
             })
+            setEstadisticas(datos)
         })
     },[])
 

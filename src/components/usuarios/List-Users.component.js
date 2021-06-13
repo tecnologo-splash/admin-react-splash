@@ -35,6 +35,7 @@ import {Context as UsuarioContext } from "../../contexts/UsuarioContext";
 import { LockUser } from "./Lock-User.component";
 import { UnlockUser } from "./Unlock-User.component";
 import { DelUser } from "./Del-User.component";
+import { baseUriMultimedia } from '../../config/settings';
 
 const headCells = [
   { id: 'nombre', align: 'center', disablePadding: true, label: 'Nombre' },
@@ -407,7 +408,8 @@ export default function ListUsers() {
                         className={classes.tableRow}
                       >
                         <TableCell  component="th" align="right" scope="row" id={labelId}>
-                          <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={row.url_perfil}>{row.nombre.slice(0,1).toUpperCase()}</Avatar>
+                          {console.log(row)}
+                          <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={baseUriMultimedia + row.url_perfil}>{row.nombre.slice(0,1).toUpperCase()}</Avatar>
                         </TableCell>
                         <TableCell>{row.nombre}</TableCell>
                         <TableCell align="left">{row.apellido}</TableCell>

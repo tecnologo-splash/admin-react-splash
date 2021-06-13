@@ -1,5 +1,5 @@
 import { BASE_URL } from "../config/settings";
-import { getToken } from "./auth";
+import { getToken, checkSession } from "./auth";
 
 
 export const lockingUser = async (userId, bloqueado) => {
@@ -17,6 +17,7 @@ export const lockingUser = async (userId, bloqueado) => {
     
     return await fetch(BASE_URL + "users/" + userId, myInit)
     .then(async (response) => {
+        checkSession(response)
         if (response.ok) {
             let json = await response.json();
             return {error: false, message: json.message}
@@ -44,6 +45,7 @@ export const delUser = async (userId) => {
     
     return await fetch(BASE_URL + "users/" + userId, myInit)
     .then(async (response) => {
+        checkSession(response)
         if (response.ok) {
             let json = await response.json();
             return {error: false, message: json.message}
