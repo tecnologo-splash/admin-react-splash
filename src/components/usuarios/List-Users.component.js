@@ -32,7 +32,7 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 
 import {Context as UsuarioContext } from "../../contexts/UsuarioContext";
-import { LockUser } from "./Lock-User.component";
+import { UserReports } from "./User-Reports.component";
 import { UnlockUser } from "./Unlock-User.component";
 import { DelUser } from "./Del-User.component";
 import { baseUriMultimedia } from '../../config/settings';
@@ -259,7 +259,7 @@ export default function ListUsers() {
       [param]: null
     })
   };
-
+  
   return (
     <>
       <Dialog open={open} onClose={handleClose}  aria-labelledby="form-dialog-title">
@@ -408,7 +408,6 @@ export default function ListUsers() {
                         className={classes.tableRow}
                       >
                         <TableCell  component="th" align="right" scope="row" id={labelId}>
-                          {console.log(row)}
                           <Avatar className={dense ? classes.avatarSmall : classes.avatarBig} src={baseUriMultimedia + row.url_perfil}>{row.nombre.slice(0,1).toUpperCase()}</Avatar>
                         </TableCell>
                         <TableCell>{row.nombre}</TableCell>
@@ -417,7 +416,7 @@ export default function ListUsers() {
                         <TableCell align="left">{row.usuario}</TableCell>
                         <TableCell align="center">{(row.activo ? 'Si' : 'No')}</TableCell>
                         <TableCell align="center">{(row.bloqueado ? 'Si' : 'No')}</TableCell>
-                        <TableCell align="center"> {(row.bloqueado ?  <UnlockUser user={row} page={page} size={rowsPerPage} params={params} orders={orders}/> : <LockUser user={row} page={page} size={rowsPerPage} params={params} orders={orders}/> )}</TableCell>
+                        <TableCell align="center"> {(row.bloqueado ?  <UnlockUser user={row} page={page} size={rowsPerPage} params={params} orders={orders}/> : <UserReports user={row} page={page} size={rowsPerPage} params={params} orders={orders}/> )}</TableCell>
                         <TableCell align="center">{(row.activo ? <DelUser user={row} page={page} size={rowsPerPage} params={params} orders={orders}/> : null )}</TableCell>
                       </TableRow>
                     );

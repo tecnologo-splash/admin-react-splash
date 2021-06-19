@@ -67,13 +67,13 @@ export function LockUser(props) {
 
   return (
     <div>
-        <IconButton 
+        <Button 
+          color="secondary" 
+          variant="contained"
           aria-label="delete"
-          onClick={handleClickOpen}
-          color="secondary"
-        >
-          <BlockIcon />
-        </IconButton>
+          onClick={handleClickOpen}>
+            Bloquear
+        </Button>
 
         <Dialog
             open={open}
@@ -93,13 +93,12 @@ export function LockUser(props) {
                 onClose={() => handleErrorClose()}
                 autoHideDuration={3000}
               />
-            {console.log(props.user)}
             </DialogContent>
 
             <DialogActions className="pb-4 mr-4">
               
                 <Button onClick={handleClose} outline color="primary">
-                    Calcelar
+                    Cancelar
                 </Button>
                 <Button onClick={() => handleSubmit(props.user.id)} color="secondary" variant="contained">
                     Bloquear

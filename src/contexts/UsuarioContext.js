@@ -11,6 +11,13 @@ const UsuarioReducer = (state, action) => {
         lastDispatch: action.type 
       };
     }
+    case "GET_REPORTS": {
+      return { 
+        ...state, 
+        denuncias: action.payload,
+        lastDispatch: action.type 
+      };
+    }
     default: 
       return state;
   }
@@ -47,6 +54,27 @@ const getUsers = (dispatch) => (page, rowsPerPage, params, orders) => {
   });
 }
 
+const getReports = (dispatch) => (username) => {
+  var myInit = {
+    'method': 'GET',
+    'headers': {
+      'Content-Type': "application/json",
+      'Authorization': "Bearer " + getToken(),
+      'accept':'*/*',
+    },
+  }
+
+  fetch(BASE_URL + `denuncias?size=255&usuario_denunciado=${username}`, myInit)
+  .then(response => 
+    response.json()
+   )
+  .then(data => {
+    if (data) {
+      dispatch({ type: 'GET_REPORTS', payload: data })
+    }
+  });
+}
+
 const getToken = () => {
   return localStorage.getItem("tokenSplash");
 }
@@ -61,7 +89,7 @@ const unblock = () => {
 
 export const {Context, Provider} = crearContext(
   UsuarioReducer,
-  { getUsers, block, unblock },
+  { getUsers, getReports, block, unblock },
   initialState
 );
 

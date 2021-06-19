@@ -232,7 +232,6 @@ export default function ListAdmin() {
     })
   };
 
-
   return (
     <>
       <Dialog open={open} onClose={handleClose}  aria-labelledby="form-dialog-title">
@@ -323,7 +322,6 @@ export default function ListAdmin() {
                 onRequestSort={handleRequestSort}
                 rowCount={admins?.content?.length}
               />
-              {console.log(admins)}
             <TableBody>
               { 
                 
