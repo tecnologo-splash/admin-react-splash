@@ -18,7 +18,7 @@ function App() {
 
           <Switch>
 
-            <Route exact path={"/login"} component={Login} isPrivate={false}/>
+            <Route exact path={"/"} component={Login} isPrivate={false}/>
             <AppRoute path={"/inicio"} component={Inicio} isPrivate={true} />
             <AppRoute path={"/administradores"} component={Administradores} isPrivate={true} />
             
