@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { LockUser } from "./Lock-User.component";
 import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
 
-import {Context as UsuarioContext} from "../../contexts/UsuarioContext";
+import {Context as DenunciaContext} from "../../contexts/DenunciaContext";
 import { makeStyles } from '@material-ui/core/styles';
 
 import { lockingUser } from '../../services/userService';
@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
 export function UserReports(props) {
   
   const classes = useStyles();
-  const {state:{denuncias, lastDispatch}, getReports } = useContext(UsuarioContext);
+  const {state:{denuncias, lastDispatch}, getReportsUser } = useContext(DenunciaContext);
 
 
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     
-    getReports(props.user.usuario)
+    getReportsUser(props.user.usuario)
     setOpen(true);
   };
   const handleClose = () => {

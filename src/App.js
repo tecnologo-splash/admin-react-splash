@@ -6,9 +6,11 @@ import Login from "./pages/Login";
 import Inicio from "./pages/Inicio";
 import Administradores from "./pages/Administradores";
 import ListarUsers from "./pages/ListarUsers";
+import ListarDenuncias from "./pages/ListarDenuncias";
 
 import {Provider as AdminProvider} from './contexts/AdminContext';
 import {Provider as UsuarioProvider} from './contexts/UsuarioContext';
+import {Provider as DenunciaProvider} from './contexts/DenunciaContext';
 
 function App() {
   return (
@@ -23,8 +25,12 @@ function App() {
             <AppRoute path={"/administradores"} component={Administradores} isPrivate={true} />
             
             <UsuarioProvider>
+              <DenunciaProvider>
               <AppRoute path={"/usuarios"} component={ListarUsers} isPrivate={true} />
+                <AppRoute path={"/denuncias"} component={ListarDenuncias} isPrivate={true} />
+              </DenunciaProvider>
             </UsuarioProvider>
+            
             
             <Redirect to="/inicio" />
     

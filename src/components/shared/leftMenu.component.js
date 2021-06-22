@@ -14,6 +14,7 @@ import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeIcon from '@material-ui/icons/Home';
+import ReportIcon from '@material-ui/icons/Report';
 
 const useStyles = makeStyles({
   list: {
@@ -79,6 +80,12 @@ export default function LeftMenu() {
           <ListItem button>
             <ListItemIcon> <GroupIcon /> </ListItemIcon>
             <ListItemText primary={"Usuarios"} />
+          </ListItem>
+        </Link>
+        <Link href="/denuncias" style={{ textDecoration: 'none', color: 'black' }}>
+          <ListItem button>
+            <ListItemIcon> <ReportIcon /> </ListItemIcon>
+            <ListItemText primary={"Denuncias"} />
           </ListItem>
         </Link>
       </List>
