@@ -195,7 +195,7 @@ export default function ListUsers() {
 
   useEffect(()=>(
     getUsers(page, rowsPerPage, params, orders)
-  ),[page, rowsPerPage, params, orders, lastDispatch, getUsers]);
+  ),[page, rowsPerPage, params, orders, lastDispatch]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

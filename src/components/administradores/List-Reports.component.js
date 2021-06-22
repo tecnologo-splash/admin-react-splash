@@ -220,7 +220,7 @@ export default function ListReports() {
 
   useEffect(()=>(
     getReports(page, rowsPerPage, params, orders)
-  ),[page, rowsPerPage, params, orders, lastDispatch, getReports]);
+  ),[page, rowsPerPage, params, orders, lastDispatch]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
