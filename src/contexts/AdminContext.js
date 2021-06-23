@@ -1,15 +1,6 @@
-import { Message } from "@material-ui/icons";
-import React, { createContext, useContext, useReducer } from "react";
-import ReactDOM from "react-dom";
+
 import { BASE_URL } from "../config/settings"
 import crearContext from "./crearContext";
-import {request} from "../api/GeneralAPI";
-import {API_ROUTES} from "../api/apiRoutes";
-import {METHOD} from "../api/apiMethod";
-import { checkSession } from "../services/auth";
-
-
-// conocimiento no equivale a sabiduria, sabiduria es hacer las cosas 
 
 const AdminReducer = (state, action) => {
     switch (action.type) {
@@ -107,7 +98,6 @@ const getInfo = (dispatch) => () => {
     .then(response => response.json())
     .then(data => {
         if (data) {
-            console.log(data)
             if (data.nombre_rol === "ADMINISTRADOR") {
                 dispatch({ type: 'GET_USER_INFO', payload: data })
             } else {

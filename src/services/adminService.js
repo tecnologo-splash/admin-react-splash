@@ -111,8 +111,7 @@ export const changePassword = async (correo,codigo,clave) => {
     });
 }
 
-
-export const getEstadisticasGenero = async () => {
+export const getEstadisticas = async (path) => {
     
     var myInit = {
         'method': 'GET',
@@ -121,7 +120,7 @@ export const getEstadisticasGenero = async () => {
         },
     }
     
-    return await fetch(BASE_URL + "estadisticas/genero", myInit)
+    return await fetch(BASE_URL + `estadisticas/${path}`, myInit)
     .then( async response => {
         checkSession(response)
         if (response.ok) {

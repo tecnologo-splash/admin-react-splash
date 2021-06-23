@@ -4,10 +4,10 @@ import HighchartsReact from 'highcharts-react-official'
 import {getEstadisticas} from '../../services/adminService';
 
 
-export default function Genero() {
+export default function Publicacion() {
 
     const [estadisticas, setEstadisticas] = useState([])
-    const valores = ["hombres","mujeres","otros"];
+    const valores = ["texto","encuesta","foto","video"];
 
     const options = {
         title: {
@@ -18,9 +18,6 @@ export default function Genero() {
             type: 'pie'
         },
         plotOptions: {
-            pie: {
-                colors: ["#6bb9fb","#ff72a0","#a36eec"],
-            },
             series: {
                 borderWidth: 0,
                 dataLabels: {
@@ -36,15 +33,15 @@ export default function Genero() {
             pointFormat: '<span>{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>'
         },
         series: [{
-            name: "Generos",
+            name: "Publicaciones",
             type: "pie",
-            data: estadisticas
+            data: estadisticas,
         }]
     }
     
     useEffect(()=>{
         let datos = []
-        getEstadisticas('genero')
+        getEstadisticas('tipo-publicaciones')
         .then((data) => {
             valores.map((valor)=>{
                 datos.push({

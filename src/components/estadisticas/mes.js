@@ -4,10 +4,10 @@ import HighchartsReact from 'highcharts-react-official'
 import {getEstadisticas} from '../../services/adminService';
 
 
-export default function Genero() {
+export default function Mes() {
 
-    const [estadisticas, setEstadisticas] = useState([])
-    const valores = ["hombres","mujeres","otros"];
+    const [estadisticas, setEstadisticas] = useState([]);
+    const [categorias, setCategorias] = useState([]);
 
     const options = {
         title: {
@@ -17,10 +17,14 @@ export default function Genero() {
         chart: {
             type: 'pie'
         },
+        xAxis: {
+            type: "category",
+            categories: categorias
+        },
+        yAxis: {
+            title: { text: "Cantidad de usuarios"}
+        },
         plotOptions: {
-            pie: {
-                colors: ["#6bb9fb","#ff72a0","#a36eec"],
-            },
             series: {
                 borderWidth: 0,
                 dataLabels: {
@@ -32,27 +36,29 @@ export default function Genero() {
             enabled: false
         },
         tooltip: {
-            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span>{point.name}</span>: <b>{point.y:.2f}%</b> del total<br/>'
+            headerFormat: '<span style="font-size:11px">{series.name}:</span><br>',
+            pointFormat: '<span style="text-align: center">{point.name}<b>{point.y}</b></span>'
         },
         series: [{
-            name: "Generos",
-            type: "pie",
+            name: "Usuarios registrados",
+            type: "column",
+            color: '#6d31bf',
             data: estadisticas
         }]
     }
     
+    
     useEffect(()=>{
-        let datos = []
-        getEstadisticas('genero')
+        let datos = [];
+        let categ = [];
+        getEstadisticas('usuarios-registrados-por-mes')
         .then((data) => {
-            valores.map((valor)=>{
-                datos.push({
-                    name: valor.trim().replace(/^\w/, (c) => c.toUpperCase()), //valor, 
-                    y: data[valor]
-                })
-            })
-            setEstadisticas(datos)
+            categ = data.map(d => d.to_char);
+            datos = data.map(d => d.count);
+            setCategorias(categ);
+            setEstadisticas(datos);
+
+            console.log(categ, datos)
         })
     },[])
 

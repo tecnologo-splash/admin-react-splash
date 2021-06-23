@@ -50,7 +50,7 @@ export default function AppBarSplash() {
   }
 
   return (
-    <AppBar position="static" style={{backgroundColor:"#601683"}}>
+    <AppBar position="static" style={{backgroundColor:"#6d31bf"}}>
         <Toolbar>
 
             <LeftMenu />

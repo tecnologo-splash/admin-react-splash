@@ -5,6 +5,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Genero from './genero';
+import Publicacion from './publicacion';
+import Mes from './mes';
+import Anio from './anio';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -20,18 +23,24 @@ export default function Grafica({estadistica}) {
         switch (estadistica.componente) {
             case "Genero":
                 return <Genero />
+            case "Publicacion":
+                return <Publicacion />
+            case "Mes":
+                return <Mes />
+            case "Anio":
+                return <Anio />
+            default:
         }
     }
-    
-
 
     return(
+        <span>
         <Card className={classes.root}>
             <CardActionArea>
 
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
-                Usuarios por genero
+                {estadistica.text}
                 </Typography>
                 <Divider />
                 
@@ -40,5 +49,6 @@ export default function Grafica({estadistica}) {
             </CardContent>
             </CardActionArea>
         </Card>
+        </span>
     )
 }
