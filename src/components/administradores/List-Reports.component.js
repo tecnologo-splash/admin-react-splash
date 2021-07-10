@@ -423,6 +423,7 @@ export default function ListReports() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25, 100]}
             component="div"
+            labelRowsPerPage={"Filas por página"}
             count={denuncias ? denuncias.total_elements : 0}
             rowsPerPage={rowsPerPage}
             page={page}

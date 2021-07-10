@@ -425,6 +425,7 @@ export default function ListUsers() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25, 100]}
             component="div"
+            labelRowsPerPage={"Filas por página"}
             count={usuarios ? usuarios.total_elements : 0}
             rowsPerPage={rowsPerPage}
             page={page}

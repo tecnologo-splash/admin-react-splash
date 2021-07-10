@@ -356,6 +356,7 @@ export default function ListAdmin() {
           count={admins.content ? admins.total_elements : 0}
           rowsPerPage={rowsPerPage}
           page={page}
+          labelRowsPerPage={"Filas por página"}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
