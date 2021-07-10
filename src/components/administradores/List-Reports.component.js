@@ -426,6 +426,7 @@ export default function ListReports() {
             labelRowsPerPage={"Filas por página"}
             count={denuncias ? denuncias.total_elements : 0}
             rowsPerPage={rowsPerPage}
+            labelDisplayedRows={({ from, to, count }) =>`${from}-${to} de ${count}`}
             page={page}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}

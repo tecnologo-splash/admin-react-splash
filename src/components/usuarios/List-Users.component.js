@@ -428,6 +428,7 @@ export default function ListUsers() {
             labelRowsPerPage={"Filas por página"}
             count={usuarios ? usuarios.total_elements : 0}
             rowsPerPage={rowsPerPage}
+            labelDisplayedRows={({ from, to, count }) =>`${from}-${to} de ${count}`}
             page={page}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}

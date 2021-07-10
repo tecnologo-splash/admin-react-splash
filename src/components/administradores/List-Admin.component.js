@@ -355,6 +355,7 @@ export default function ListAdmin() {
           component="div"
           count={admins.content ? admins.total_elements : 0}
           rowsPerPage={rowsPerPage}
+          labelDisplayedRows={({ from, to, count }) =>`${from}-${to} de ${count}`}
           page={page}
           labelRowsPerPage={"Filas por página"}
           onChangePage={handleChangePage}
